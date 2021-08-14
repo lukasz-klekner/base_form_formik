@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import './App.css'
 import TextError from './components/TextError'
@@ -13,6 +13,8 @@ const initialValues = {
     fb: '',
     instagram: '',
   },
+  phoneNumber: ['', ''],
+  phNumbers: [''],
 }
 
 const onSubmit = (values) => {
@@ -72,6 +74,49 @@ function App() {
               name='social.instagram'
               placeholder='Instagram'
             />
+          </div>
+          <div>
+            <Field
+              type='text'
+              name='phoneNumber[0]'
+              placeholder='Primary Phone Number'
+            />
+          </div>
+          <div>
+            <Field
+              type='text'
+              name='phoneNumber[1]'
+              placeholder='Secondary Phone Number'
+            />
+          </div>
+          <div>
+            <label>List of phone numbers</label>
+            <FieldArray name='phNumbers'>
+              {(FieldArrayProps) => {
+                const { push, remove, form } = FieldArrayProps
+                const {
+                  values: { phNumbers },
+                } = form
+
+                return (
+                  <div>
+                    {phNumbers.map((phNumber, index) => (
+                      <div key={index}>
+                        <Field name={`phNumbers[${index}]`} />
+                        {index > 0 && (
+                          <button type='button' onClick={() => remove(index)}>
+                            -
+                          </button>
+                        )}
+                        <button type='button' onClick={() => push('')}>
+                          +
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )
+              }}
+            </FieldArray>
           </div>
           <div>
             <Field type='email' name='email' placeholder='Email' />
