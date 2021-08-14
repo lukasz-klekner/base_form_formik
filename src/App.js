@@ -5,7 +5,9 @@ import './App.css'
 const initialValues = {
   name: '',
   surname: '',
+  address: '',
   email: '',
+  comments: '',
 }
 
 const onSubmit = (values) => {
@@ -15,6 +17,7 @@ const onSubmit = (values) => {
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   surname: Yup.string().required('Required'),
+  address: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email format').required('Required'),
 })
 
@@ -36,8 +39,31 @@ function App() {
             <ErrorMessage name='surname' />
           </div>
           <div>
+            <Field name='address'>
+              {(props) => {
+                const { field, meta } = props
+                return (
+                  <>
+                    <input
+                      type='text'
+                      id='address'
+                      placeholder='Address'
+                      {...field}
+                    />
+                    {meta.touched && meta.error ? (
+                      <div>{meta.error}</div>
+                    ) : null}
+                  </>
+                )
+              }}
+            </Field>
+          </div>
+          <div>
             <Field type='email' name='email' placeholder='Email' />
             <ErrorMessage name='email' />
+          </div>
+          <div>
+            <Field as='textarea' name='comments' placeholder='Comments' />
           </div>
           <button type='submit'>Send!</button>
         </Form>
