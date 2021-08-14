@@ -43,108 +43,137 @@ function App() {
     <div className='App'>
       <Formik
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        // onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form>
-          <div>
-            <Field type='text' name='name' placeholder='First Name' />
-            <ErrorMessage name='name' component={TextError} />
-          </div>
-          <div>
-            <Field type='text' name='surname' placeholder='Surname' />
-            <ErrorMessage name='surname' component='div' />
-          </div>
-          <div>
-            <Field name='address'>
-              {(props) => {
-                const { field, meta } = props
-                return (
-                  <>
-                    <input
-                      type='text'
-                      id='address'
-                      placeholder='Address'
-                      {...field}
-                    />
-                    {meta.touched && meta.error ? (
-                      <div className='error'>{meta.error}</div>
-                    ) : null}
-                  </>
-                )
-              }}
-            </Field>
-          </div>
-          <div>
-            <Field type='text' name='social.fb' placeholder='FB' />
-          </div>
-          <div>
-            <Field
-              type='text'
-              name='social.instagram'
-              placeholder='Instagram'
-            />
-          </div>
-          <div>
-            <Field
-              type='text'
-              name='phoneNumber[0]'
-              placeholder='Primary Phone Number'
-            />
-          </div>
-          <div>
-            <Field
-              type='text'
-              name='phoneNumber[1]'
-              placeholder='Secondary Phone Number'
-            />
-          </div>
-          <div>
-            <label>List of phone numbers</label>
-            <FieldArray name='phNumbers'>
-              {(FieldArrayProps) => {
-                const { push, remove, form } = FieldArrayProps
-                const {
-                  values: { phNumbers },
-                } = form
+        {(formik) => (
+          <Form>
+            <div>
+              <Field type='text' name='name' placeholder='First Name' />
+              <ErrorMessage name='name' component={TextError} />
+            </div>
+            <div>
+              <Field type='text' name='surname' placeholder='Surname' />
+              <ErrorMessage name='surname' component='div' />
+            </div>
+            <div>
+              <Field name='address'>
+                {(props) => {
+                  const { field, meta } = props
+                  return (
+                    <>
+                      <input
+                        type='text'
+                        id='address'
+                        placeholder='Address'
+                        {...field}
+                      />
+                      {meta.touched && meta.error ? (
+                        <div className='error'>{meta.error}</div>
+                      ) : null}
+                    </>
+                  )
+                }}
+              </Field>
+            </div>
+            <div>
+              <Field type='text' name='social.fb' placeholder='FB' />
+            </div>
+            <div>
+              <Field
+                type='text'
+                name='social.instagram'
+                placeholder='Instagram'
+              />
+            </div>
+            <div>
+              <Field
+                type='text'
+                name='phoneNumber[0]'
+                placeholder='Primary Phone Number'
+              />
+            </div>
+            <div>
+              <Field
+                type='text'
+                name='phoneNumber[1]'
+                placeholder='Secondary Phone Number'
+              />
+            </div>
+            <div>
+              <label>List of phone numbers</label>
+              <FieldArray name='phNumbers'>
+                {(FieldArrayProps) => {
+                  const { push, remove, form } = FieldArrayProps
+                  const {
+                    values: { phNumbers },
+                  } = form
 
-                return (
-                  <div>
-                    {phNumbers.map((phNumber, index) => (
-                      <div key={index}>
-                        <Field name={`phNumbers[${index}]`} />
-                        {index > 0 && (
-                          <button type='button' onClick={() => remove(index)}>
-                            -
+                  return (
+                    <div>
+                      {phNumbers.map((phNumber, index) => (
+                        <div key={index}>
+                          <Field name={`phNumbers[${index}]`} />
+                          {index > 0 && (
+                            <button type='button' onClick={() => remove(index)}>
+                              -
+                            </button>
+                          )}
+                          <button type='button' onClick={() => push('')}>
+                            +
                           </button>
-                        )}
-                        <button type='button' onClick={() => push('')}>
-                          +
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )
-              }}
-            </FieldArray>
-          </div>
-          <div>
-            <Field type='email' name='email' placeholder='Email' />
-            <ErrorMessage name='email'>
-              {(error) => <div className='error'>{error}</div>}
-            </ErrorMessage>
-          </div>
-          <div>
-            <Field
-              as='textarea'
-              name='comments'
-              placeholder='Comments'
-              validate={validationComments}
-            />
-            <ErrorMessage name='comments' component={TextError} />
-          </div>
-          <button type='submit'>Send!</button>
-        </Form>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                }}
+              </FieldArray>
+            </div>
+            <div>
+              <Field type='email' name='email' placeholder='Email' />
+              <ErrorMessage name='email'>
+                {(error) => <div className='error'>{error}</div>}
+              </ErrorMessage>
+            </div>
+            <div>
+              <Field
+                as='textarea'
+                name='comments'
+                placeholder='Comments'
+                validate={validationComments}
+              />
+              <ErrorMessage name='comments' component={TextError} />
+            </div>
+            <button type='submit'>Send!</button>
+            <button
+              type='button'
+              onClick={() => formik.validateField('comments')}
+            >
+              Validate comments
+            </button>
+            <button type='button' onClick={() => formik.validateForm()}>
+              Validate all
+            </button>
+            <button
+              type='button'
+              onClick={() => formik.setFieldTouched('comments')}
+            >
+              Visit comments
+            </button>
+            <button
+              type='button'
+              onClick={() =>
+                formik.setTouched({
+                  email: true,
+                  name: true,
+                  surname: true,
+                })
+              }
+            >
+              Visit all
+            </button>
+          </Form>
+        )}
       </Formik>
     </div>
   )
