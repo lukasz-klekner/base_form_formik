@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import './App.css'
+import TextError from './components/TextError'
 
 const initialValues = {
   name: '',
@@ -32,11 +33,11 @@ function App() {
         <Form>
           <div>
             <Field type='text' name='name' placeholder='First Name' />
-            <ErrorMessage name='name' />
+            <ErrorMessage name='name' component={TextError} />
           </div>
           <div>
             <Field type='text' name='surname' placeholder='Surname' />
-            <ErrorMessage name='surname' />
+            <ErrorMessage name='surname' component='div' />
           </div>
           <div>
             <Field name='address'>
@@ -51,7 +52,7 @@ function App() {
                       {...field}
                     />
                     {meta.touched && meta.error ? (
-                      <div>{meta.error}</div>
+                      <div className='error'>{meta.error}</div>
                     ) : null}
                   </>
                 )
@@ -60,7 +61,9 @@ function App() {
           </div>
           <div>
             <Field type='email' name='email' placeholder='Email' />
-            <ErrorMessage name='email' />
+            <ErrorMessage name='email'>
+              {(error) => <div className='error'>{error}</div>}
+            </ErrorMessage>
           </div>
           <div>
             <Field as='textarea' name='comments' placeholder='Comments' />
