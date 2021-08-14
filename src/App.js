@@ -1,4 +1,5 @@
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import './App.css'
 
 const initialValues = {
@@ -11,30 +12,18 @@ const onSubmit = (values) => {
   console.log(values)
 }
 
-const validate = (values) => {
-  let errors = {}
-
-  if (!values.name) {
-    errors.name = 'Required'
-  }
-
-  if (!values.surname) {
-    errors.surname = 'Required'
-  }
-
-  if (!values.email) {
-    errors.email = 'Required'
-  }
-
-  return errors
-}
+const validationSchema = Yup.object({
+  name: Yup.string().required('Required'),
+  surname: Yup.string().required('Required'),
+  email: Yup.string().email('Invalid email format').required('Required'),
+})
 
 function App() {
   const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
     useFormik({
       initialValues,
       onSubmit,
-      validate,
+      validationSchema,
     })
   return (
     <div className='App'>
