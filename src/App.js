@@ -1,4 +1,4 @@
-import { useFormik } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import './App.css'
 
@@ -19,57 +19,29 @@ const validationSchema = Yup.object({
 })
 
 function App() {
-  const {
-    values,
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    errors,
-    touched,
-    getFieldProps,
-  } = useFormik({
-    initialValues,
-    onSubmit,
-    validationSchema,
-  })
   return (
     <div className='App'>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type='text'
-            name='name'
-            placeholder='First Name'
-            {...getFieldProps('name')}
-          />
-          {touched.name && errors.name ? (
-            <div className='error'>{errors.name}</div>
-          ) : null}
-        </div>
-        <div>
-          <input
-            type='text'
-            name='surname'
-            placeholder='Surname'
-            {...getFieldProps('surname')}
-          />
-          {touched.surname && errors.surname ? (
-            <div className='error'>{errors.surname}</div>
-          ) : null}
-        </div>
-        <div>
-          <input
-            type='email'
-            name='email'
-            placeholder='Email'
-            {...getFieldProps('email')}
-          />
-          {touched.email && errors.email ? (
-            <div className='error'>{errors.email}</div>
-          ) : null}
-        </div>
-        <button type='submit'>Send!</button>
-      </form>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+      >
+        <Form>
+          <div>
+            <Field type='text' name='name' placeholder='First Name' />
+            <ErrorMessage name='name' />
+          </div>
+          <div>
+            <Field type='text' name='surname' placeholder='Surname' />
+            <ErrorMessage name='surname' />
+          </div>
+          <div>
+            <Field type='email' name='email' placeholder='Email' />
+            <ErrorMessage name='email' />
+          </div>
+          <button type='submit'>Send!</button>
+        </Form>
+      </Formik>
     </div>
   )
 }
