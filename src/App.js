@@ -17,8 +17,9 @@ const initialValues = {
   phNumbers: [''],
 }
 
-const onSubmit = (values) => {
+const onSubmit = (values, onSubmitProps) => {
   console.log(values)
+  onSubmitProps.setSubmitting(false)
 }
 
 const validationSchema = Yup.object({
@@ -43,7 +44,7 @@ function App() {
     <div className='App'>
       <Formik
         initialValues={initialValues}
-        // onSubmit={onSubmit}
+        onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
         {(formik) => (
@@ -144,7 +145,13 @@ function App() {
               />
               <ErrorMessage name='comments' component={TextError} />
             </div>
-            <button type='submit'>Send!</button>
+            <button
+              type='submit'
+              // disabled={!formik.isValid}
+              disabled={!formik.isValid || formik.isSubmitting}
+            >
+              Send!
+            </button>
             <button
               type='button'
               onClick={() => formik.validateField('comments')}
