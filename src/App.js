@@ -9,6 +9,10 @@ const initialValues = {
   address: '',
   email: '',
   comments: '',
+  social: {
+    fb: '',
+    instagram: '',
+  },
 }
 
 const onSubmit = (values) => {
@@ -58,6 +62,16 @@ function App() {
                 )
               }}
             </Field>
+          </div>
+          <div>
+            <Field type='text' name='social.fb' placeholder='FB' />
+          </div>
+          <div>
+            <Field
+              type='text'
+              name='social.instagram'
+              placeholder='Instagram'
+            />
           </div>
           <div>
             <Field type='email' name='email' placeholder='Email' />
