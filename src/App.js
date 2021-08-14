@@ -28,6 +28,16 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email format').required('Required'),
 })
 
+const validationComments = (value) => {
+  let error
+
+  if (!value) {
+    error = 'Required!'
+  }
+
+  return error
+}
+
 function App() {
   return (
     <div className='App'>
@@ -125,7 +135,13 @@ function App() {
             </ErrorMessage>
           </div>
           <div>
-            <Field as='textarea' name='comments' placeholder='Comments' />
+            <Field
+              as='textarea'
+              name='comments'
+              placeholder='Comments'
+              validate={validationComments}
+            />
+            <ErrorMessage name='comments' component={TextError} />
           </div>
           <button type='submit'>Send!</button>
         </Form>
