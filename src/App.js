@@ -35,6 +35,7 @@ const savedValues = {
 const onSubmit = (values, onSubmitProps) => {
   console.log(values)
   onSubmitProps.setSubmitting(false)
+  onSubmitProps.resetForm()
 }
 
 const validationSchema = Yup.object({
