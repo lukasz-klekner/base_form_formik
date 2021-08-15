@@ -1,4 +1,5 @@
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
+import { useState } from 'react'
 import * as Yup from 'yup'
 import './App.css'
 import TextError from './components/TextError'
@@ -9,6 +10,20 @@ const initialValues = {
   address: '',
   email: '',
   comments: '',
+  social: {
+    fb: '',
+    instagram: '',
+  },
+  phoneNumber: ['', ''],
+  phNumbers: [''],
+}
+
+const savedValues = {
+  name: 'Lukasz',
+  surname: 'Klekner',
+  address: '',
+  email: '',
+  comments: 'I am learning how to use Formik',
   social: {
     fb: '',
     instagram: '',
@@ -40,12 +55,14 @@ const validationComments = (value) => {
 }
 
 function App() {
+  const [formValues, setFormValues] = useState(null)
   return (
     <div className='App'>
       <Formik
-        initialValues={initialValues}
+        initialValues={formValues || initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
+        enableReinitialize
       >
         {(formik) => (
           <Form>
@@ -178,6 +195,9 @@ function App() {
               }
             >
               Visit all
+            </button>
+            <button type='button' onClick={() => setFormValues(savedValues)}>
+              Load saved data
             </button>
           </Form>
         )}
